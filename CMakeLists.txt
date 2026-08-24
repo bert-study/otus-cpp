@@ -10,10 +10,19 @@ option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 configure_file(version.h.in version.h)
 
 add_executable(ip_filter_cli main.cpp)
+add_library(ip_filter lib.cpp)
 
-set_target_properties(ip_filter_cli PROPERTIES
+set_target_properties(ip_filter_cli ip_filter PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
+)
+
+target_include_directories(ip_filter
+    PRIVATE "${CMAKE_BINARY_DIR}"
+)
+
+target_link_libraries(ip_filter_cli PRIVATE
+    ip_filter
 )
 
 if(WITH_BOOST_TEST)
@@ -29,10 +38,18 @@ if(WITH_BOOST_TEST)
         COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
         INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
     )
+
+    target_link_libraries(test_version
+        ${Boost_LIBRARIES}
+        ip_filter
+    )
 endif()
 
 if (MSVC)
     target_compile_options(ip_filter_cli PRIVATE
+        /W4
+    )
+    target_compile_options(ip_filter PRIVATE
         /W4
     )
     if(WITH_BOOST_TEST)
@@ -42,6 +59,9 @@ if (MSVC)
     endif()
 else ()
     target_compile_options(ip_filter_cli PRIVATE
+        -Wall -Wextra -pedantic -Werror
+    )
+    target_compile_options(ip_filter PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
     if(WITH_BOOST_TEST)
