@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - 02_homework
       - feature/github_actions
 env:
   ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
