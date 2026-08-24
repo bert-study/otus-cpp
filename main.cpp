@@ -75,13 +75,8 @@ void print_ip(ipList::const_iterator ip) {
     std::cout << std::endl;
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
-    if (argc < 2) {
-        std::cout << "Please provide file with ip!" << std::endl;
-        return 1;
-    }
-    
     try
     {
         for(std::string line; std::getline(std::cin, line);)
