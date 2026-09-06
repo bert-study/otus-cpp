@@ -14,3 +14,8 @@ install(TARGETS ip_filter_cli RUNTIME DESTINATION bin)
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_CONTACT example@example.com)
 include(CPack)
+
+
+if(WITH_BOOST_TEST)
+    enable_testing()
+endif()
