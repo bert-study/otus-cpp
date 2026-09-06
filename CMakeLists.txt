@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
-set(PROJECT_VESRION 0.0.${PATCH_VERSION})
+if(DEFINED RUN_NUMBER)
+    set(VERSION_PATCH "${RUN_NUMBER}")
+else()
+    set(VERSION_PATCH "0")
+endif()
 
-project(ip_filter VERSION ${PROJECT_VESRION})
+project(ip_filter VERSION 0.0.${VERSION_PATCH})
 
 option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 
